@@ -16,11 +16,32 @@
     state: present
   when: ansible_os_family == "RedHat"
 
-- name: Add Fluent Bit repository (Debian/Ubuntu)
-  apt_repository:
-    repo: "deb https://packages.fluentbit.io/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+# - name: Add Fluent Bit repository (Debian/Ubuntu)
+#   apt_repository:
+#     repo: "deb https://packages.fluentbit.io/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+#     state: present
+#   when: ansible_os_family == "Debian"
+
+##################################################
+## currently working for debian lab ##
+##################################################
+
+
+- name: Add Fluent Bit GPG key
+  ansible.builtin.apt_key:
+    url: https://packages.fluentbit.io/fluentbit.key
     state: present
-  when: ansible_os_family == "Debian"
+
+- name: Add Fluent Bit repo
+  ansible.builtin.apt_repository:
+    repo: "deb https://packages.fluentbit.io/debian/bookworm bookworm main"
+    state: present
+
+
+##################################################
+## currently working for debian lab ##
+##################################################
+
 
 - name: Add Fluent Bit repository file (RHEL/AlmaLinux)
   template:

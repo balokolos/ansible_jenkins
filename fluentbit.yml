@@ -1,7 +1,9 @@
 ---
 - name: Deploy Fluent Bit
-  hosts: vm
+  hosts: lab
   become: true
+  vars_files:
+    - group_vars/lab/vault.yml
   gather_facts: false
 
   pre_tasks:

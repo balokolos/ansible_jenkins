@@ -3,5 +3,5 @@
 
 - name: Restart Fluent Bit
   service:
-    name: td-agent-bit
+    name: fluent-bit
     state: restarted
