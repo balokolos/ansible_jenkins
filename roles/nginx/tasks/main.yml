@@ -1,0 +1,37 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Ensure nginx is enabled and started
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Deploy nginx config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart nginx
+
+- name: Ensure web root exists
+  file:
+    path: "{{ nginx_root }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Create sample index.html
+  copy:
+    dest: "{{ nginx_root }}/index.html"
+    content: |
+      <html>
+      <h1>Hello from Ansible Nginx!</h1>
+      </html>
